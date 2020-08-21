@@ -1,0 +1,74 @@
+d-i debian-installer/locale select en_US
+d-i keyboard-configuration/layoutcode string us
+
+
+# Network
+d-i netcfg/choose_interface select auto
+d-i netcfg/get_hostname string ubun
+d-i netcfg/dhcp_failed note
+d-i netcfg/dhcp_options select Do not configure the network at this time
+
+
+# Clock
+d-i clock-setup/utc boolean true
+d-i time/zone string Europe/Kiev
+d-i clock-setup/ntp boolean true
+
+
+# Users
+# mkpasswd (внезапно доступный в whois package) генерирует SHA-512 hash для пароля:
+# mkpasswd -m sha-512 [password]
+
+## root
+d-i passwd/root-login boolean true
+d-i passwd/make-user boolean true
+d-i passwd/root-password-crypted password $6$1wAnUrrHu$mhYFW7I6dqyQDYmsmJoj1TW5n8BFe6R53ldn9l5OTK60mfVOdMg82edIDWjTWQevjHnpLf/4hr4w7YK6XtgMk/
+# zxc
+
+## user
+d-i passwd/user-fullname string Ubuntu user
+d-i passwd/username string worker
+d-i passwd/user-password-crypted password $6$GCnuTrUk$RTMumSzJMOHu3LhDjoiDCqKMu6G5eNAjJdFIU8raADtSubzc.nvZ7CNTGbNm1h3n5exHlAPjKgpzKjA.wR3r5/
+#asd
+
+d-i user-setup/allow-password-weak boolean true
+d-i user-setup/encrypt-home boolean false
+
+
+# Partitioning
+d-i partman-auto/disk string /dev/sda
+d-i partman-auto/method string regular
+partman-auto partman-auto/init_automatically_partition select Guided - use entire disk
+partman-auto partman-auto/automatically_partition select
+d-i partman-auto/purge_lvm_from_device boolean true
+d-i partman/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+
+
+# Selecting packages
+d-i pkgsel/update-policy select none
+d-i	tasksel/first	multiselect	OpenSSH server, Basic Ubuntu server
+
+# GRUB
+d-i grub-installer/only_debian boolean true
+d-i grub-installer/with_other_os boolean true
+
+
+# Post-install
+
+d-i finish-install/reboot_in_progress note
+d-i preseed/late_command string cp /cdrom/preseed/post.sh /target/var/tmp/post.sh; \
+in-target chmod +x /var/tmp/post.sh; \
+in-target /bin/bash /var/tmp/post.sh;
+
+
+
+#d-i finish-install/reboot_in_progress note
+#d-i preseed/late_command string \
+#in-target wget https://raw.githubusercontent.com/willceitho/preseed/master/src/post.sh -O /var/tmp/post.sh && \
+#in-target chmod +x /var/tmp/post.sh && \
+#in-target /bin/bash /var/tmp/post.sh
+# && \
+# in-target rm /var/tmp/post.sh

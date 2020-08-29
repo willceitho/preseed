@@ -10,8 +10,20 @@ in_image=ubuntu.iso
 out_image=ubuntu-custom.iso
 
 
+function check_isoExist {
+	if [ -f "$in_image" ]
+	then
+		echo "Check file - $in_image succesfully!"
+	else
+		echo "File $in_image not exist. Breaking..."
+		break
+	fi
+}
+
 
 # Распаковываем образ в $build
+
+check_isoExist()
 echo "[TASK 1] unpacking ISO"
 rm -rf $build/
 mkdir $build/

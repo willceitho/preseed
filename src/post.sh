@@ -7,4 +7,4 @@ usermod -aG sudo $user
 mkdir -p /home/$user/.ssh
 echo $key > /home/$user/.ssh/authorized_keys
 chown -R $user:$user /home/$user/
-echo $user' ALL=(ALL:ALL) NOPASSWD: ALL'   >> /etc/sudoers.d/sudogroups
+echo $user' ALL=(ALL:ALL) NOPASSWD: ALL'   > /etc/sudoers.d/worker

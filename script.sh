@@ -16,16 +16,15 @@ function check_isoExist {
 		echo "Check file - $1 succesfully!"
 	else
 		echo "File $1 not exist. Breaking..."
-		exit 1
+
+		exit 1	
 	fi
 }
 
 
 # Распаковываем образ в $build
 # Unpacking image into $build
-
 check_isoExis $in_image
-
 echo "[TASK 1] unpacking ISO"
 rm -rf $build/
 mkdir $build/

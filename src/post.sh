@@ -3,6 +3,7 @@ custom_key='ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDAvBNVORAabi9zXL9K09b4bmygJ2/x
 
 
 # Настраиваем подключение к новому пользователю
+
 # Configure connection to new user
 usermod -aG sudo $custom_user
 echo $custom_user' ALL=(ALL:ALL) NOPASSWD: ALL'   >> /etc/sudoers.d/sudogroups

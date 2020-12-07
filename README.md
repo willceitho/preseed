@@ -1,11 +1,9 @@
-# Custom Preseed 
+The script `script.sh` takes the original Ubuntu image (`$in_image`), unpacks it, changes the installation selection menu, adds the preseeded defaults (oem.seed) and packages it back into the custom image (`$out_image`).
 
 
-Скрипт `script.sh` берет оригинальный образ (`$in_image`), распаковывает его, изменяет меню выбора установки, добавляет preseed настройки по умолчанию (oem.seed) и запаковывает обратно в кастомный образ (`$out_image`).
+A new user **worker** is created in *oem.seed*, which, like the root, is assigned passwords, in tasksel is selected 
 
-
-В oem.seed создается новый пользователь worker, которому как и руту присваиваются пароли, в tasksel'e выбраны 
 > OpenSSH server, Basic Ubuntu server
 
 
-При окончании установки  триггерится скрипт `post.sh`, в котором новоявленный пользователь добавляется в группу sudo (без пароля), после чего в его authorized_keys дописывается key.pub от master машины.
+At the end of the installation, the `post.sh` script is triggered, where the new user (*$custom_user=worker*) is added to the **sudo** group without a password (modified */etc/sudoers.d/sudogroups*), after which a public key from the master machine is added to its */home/$custom_user/.ssh/authorized_keys* via the `custom_key` variable.

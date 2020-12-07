@@ -16,14 +16,15 @@ function check_isoExist {
 		echo "Check file - $1 succesfully!"
 	else
 		echo "File $1 not exist. Breaking..."
+
 		exit 1	
 	fi
 }
 
 
 # Распаковываем образ в $build
-
-check_isoExist $in_image
+# Unpacking image into $build
+check_isoExis $in_image
 echo "[TASK 1] unpacking ISO"
 rm -rf $build/
 mkdir $build/
@@ -38,19 +39,21 @@ sudo rm -r $tmp
 
 
 # Добавляем файлы для preseed
+# Adds files for custom Ubuntu image
 echo "[TASK 2] copy files"
 cp ./src/txt.cfg ./iso/ubuntu/isolinux/txt.cfg
 cp ./src/oem.seed ./iso/ubuntu/preseed/oem.seed
 cp ./src/post.sh ./iso/ubuntu/preseed/post.sh
 
 
-# Запаковываем содержимое iso/ в образ $out_image
+# Запаковываем содержимое $build/ в образ $out_image
+# Packing content of $build/ into $out_image image
 echo "[TASK 3] Calculating MD5 sums..."
 rm $rebuild/md5sum.txt
 (cd $rebuild/ && find . -type f -print0 | xargs -0 md5sum | grep -v "boot.cat" | grep -v "md5sum.txt" > md5sum.txt)
 echo "[TASK 4] Building iso image..."
 
-sudo apt-get install mkisofs -y  >/dev/null 2>&1
+# sudo apt-get install mkisofs -y  >/dev/null 2>&1
 
 mkisofs -r -V "Custom Ubuntu install" \
             -cache-inodes \
@@ -58,4 +61,3 @@ mkisofs -r -V "Custom Ubuntu install" \
             -c isolinux/boot.cat -no-emul-boot \
             -boot-load-size 4 -boot-info-table \
             -o $out_image $rebuild/ \
-	     >/dev/null 2>&1

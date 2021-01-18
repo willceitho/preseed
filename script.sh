@@ -22,7 +22,6 @@ function check_isoExist {
 }
 
 
-# Распаковываем образ в $build
 # Unpacking image into $build
 check_isoExist $in_image
 echo "[TASK 1] unpacking ISO"

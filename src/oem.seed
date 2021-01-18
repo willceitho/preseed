@@ -16,7 +16,7 @@ d-i clock-setup/ntp boolean true
 
 
 # Users
-# mkpasswd (внезапно доступный в whois package) генерирует SHA-512 hash для пароля:
+# mkpasswd (accepted in apt whois package) generated SHA-512 hash for dat our pass:
 # mkpasswd -m sha-512 [password]
 
 ## root
